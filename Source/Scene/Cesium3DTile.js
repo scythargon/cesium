@@ -607,7 +607,8 @@ define([
         var expired = this.contentExpired;
         if (expired) {
             // Append a query parameter of the tile expiration date to prevent caching
-            var timestampQuery = '?expired=' + this.expireDate.toString();
+            // Sometimes `this.expireDate` is undefined and Cesium crashes here.
+            var timestampQuery = '?expired=' + (Cesium.defined(this.expireDate) ? this.expireDate : Math.random()).toString();
             url = joinUrls(url, timestampQuery, false);
         }
 
